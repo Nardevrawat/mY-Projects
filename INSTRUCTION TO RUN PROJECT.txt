@@ -1,0 +1,8 @@
+This project is created Master Azhar Ansari student of KV OEF Kanpur
+===========================================
+
+OPEN ****Main.py *****
+Run the project
+
+User 	: AzharRMS
+Password : passcode

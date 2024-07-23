@@ -1,0 +1,91 @@
+from tkinter.ttk import *
+from tkinter import*
+import tkinter
+import os
+from tkinter import messagebox
+import mysql.connector as mycon
+cn = mycon.connect(host='localhost',user='root',password="admin",database='rmsazharansari')
+cur = cn.cursor()
+def deletecustomer():
+    win.destroy()
+    os.system("python deletecustomerinterface.py")
+def updatecustomer():
+    win.destroy()
+    os.system("python updatecustomerinterface.py")
+def newcustomer():
+    win.destroy()
+    os.system("python newcustomerinterface.py")
+def allcustomer():
+    cur.execute("create table if not exists custinfo (cust_id int,cust_name varchar(2000),address varchar(2000),mobile_no varchar(2000),membership varchar(2000),discount varchar(2000))")
+    win=Tk()
+    win.title('Customer Info')
+    win.geometry("900x300+70+150")
+    win.config(bg="white")
+    win.resizable(False,False)
+    win.iconbitmap(r"Data\pyimage\logo.ico")
+    cur.execute("select * from custinfo")
+    result=cur.fetchall()
+    scrollbar=ttk.Scrollbar(win)
+    scrollbar.pack(side=RIGHT,fill=Y)
+    mylist=Listbox(win,yscrollcommand=scrollbar.set,width=145)
+    l1=tkinter.Label(win,text="Customer Info",fg="red",bg="white",font=("Segoe Print",14))
+    l1.pack()
+    c1=tkinter.Label(win,text="Customer ID",fg="red",bg="white",font=("Segoe Print",10)).place(x=1,y=60)
+    c2=tkinter.Label(win,text="Customer Name",fg="red",bg="white",font=("Segoe Print",10)).place(x=150,y=60)
+    c3=tkinter.Label(win,text="Address",fg="red",bg="white",font=("Segoe Print",10)).place(x=330,y=60)
+    c4=tkinter.Label(win,text="Mobile No.",fg="red",bg="white",font=("Segoe Print",10)).place(x=480,y=60)
+    c5=tkinter.Label(win,text="Membership",fg="red",bg="white",font=("Segoe Print",10)).place(x=650,y=60)
+    c6=tkinter.Label(win,text="Discount",fg="red",bg="white",font=("Segoe Print",10)).place(x=800,y=60)
+    for i in result:
+        mylist.insert(END,str("%10s"%i[0])+str("%60s"%i[1])+str("%45s"%i[2])+str("%40s"%i[3])+str("%50s"%i[4])+str("%40s"%i[5])) 
+    mylist.place(x=1,y=100)
+    scrollbar.config(command=mylist.yview)
+    win.mainloop()
+def homepress():
+    win.destroy()
+    os.system("python interface.py")
+def lock():
+    ans=messagebox.askquestion("RMS","Are you Sure Want to Logout")
+    if ans=="yes":
+        win.destroy()
+        os.system("python ••••••Main••••••.py")
+def sewin():
+    os.system("python settingmain.py")
+def qui():
+    win.destroy()
+win=Tk()
+win.title('Resturant Management System')
+win.geometry("340x270+350+200")
+win.config(bg="white")
+win.iconbitmap(r"Data\pyimage\logo.ico")
+win.resizable(False,False)
+l1=tkinter.Label(win,text="Customer Info",fg="red",bg="white",font=("Segoe Print",14))
+l1.pack()
+hb=PhotoImage(file=r"Data\pyimage\hom.png")
+aboutimage=PhotoImage(file=r"Data\pyimage\abt.png")
+logo=PhotoImage(file=r"Data\pyimage\logout.png")
+ex=PhotoImage(file=r"Data\pyimage\exet.png")
+sett=PhotoImage(file=r"Data\pyimage\sett.png")
+user=PhotoImage(file=r"Data\pyimage\user.png")
+p1=PhotoImage(file=r"Data\pyimage\interface\coustomerinterface\all.png")
+p2=PhotoImage(file=r"Data\pyimage\interface\coustomerinterface\new.png")
+p3=PhotoImage(file=r"Data\pyimage\interface\coustomerinterface\update.png")
+p4=PhotoImage(file=r"Data\pyimage\interface\coustomerinterface\delete.png")
+b1=ttk.Button(win,image=p1,command=allcustomer)
+b1.place(x=20,y=60)
+b2=ttk.Button(win,image=p2,command=newcustomer)
+b2.place(x=20,y=110)
+b3=ttk.Button(win,image=p3,command=updatecustomer)
+b3.place(x=20,y=160)
+b4=ttk.Button(win,image=p4,command=deletecustomer)
+b4.place(x=20,y=210)
+##############################
+homebutton=ttk.Button(win,image=hb,command=homepress)
+homebutton.place(x=300,y=60)
+logoutbutton=ttk.Button(win,image=logo,command=lock)
+logoutbutton.place(x=300,y=100)
+settingbutton=ttk.Button(win,image=sett,command=sewin)
+settingbutton.place(x=300,y=140)
+quitbutton=ttk.Button(win,image=ex,command=qui)
+quitbutton.place(x=300,y=180)
+win.mainloop()
